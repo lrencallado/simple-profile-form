@@ -63,16 +63,19 @@ const isNextButtonEnabled = ref(false)
 const checkFormValidity = (event: JsonFormsChangeEvent) => {
   // Check if all fields are valid
   // const valid = ajv.validate(schema, event.data)
+
+  const isAbove18yearsOld = isAbove18(event.data.birthday)
   
   // Show the email if abouve 18 years old
-  if (event.data.birthday && isAbove18(event.data.birthday)) {
+  if (event.data.birthday && isAbove18yearsOld) {
     toggleEmail('SHOW')
-  } else if (!isAbove18(event.data.birthday)) { 
+  } else if (!isAbove18yearsOld) { 
     // Hide the email if 18 years old and below
     toggleEmail('HIDE')
   }
-  // Enable Next button if above 18 years old
-  isNextButtonEnabled.value = isAbove18(event.data.birthday)
+
+  // Enable/disable Next button
+  isNextButtonEnabled.value = isAbove18yearsOld
 }
 
 const isAbove18 = (birthday: Date) => {
